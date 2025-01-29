@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Pricing Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 400px;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Event Pricing Calculator</h2>
+    <label for="hours">Event Duration (Hours):</label>
+    <input type="number" id="hours" min="1" value="2">
+    
+    <label for="cups">Number of Cups:</label>
+    <input type="number" id="cups" min="1" value="50">
+    
+    <button onclick="calculatePrice()">Calculate</button>
+    
+    <div class="result" id="result"></div>
+    
+    <script>
+        function calculatePrice() {
+            let hours = parseInt(document.getElementById('hours').value);
+            let cups = parseInt(document.getElementById('cups').value);
+            
+            const baseFee = 40;
+            const ingredientCostPerCup = 2.37;
+            const laborRate = 20;
+            const cupsPerStaffPerHour = 25;
+            
+            let staffNeeded = Math.max(2, Math.ceil(cups / (cupsPerStaffPerHour * hours)));
+            let totalHours = hours + 1;
+            let ingredientCost = cups * ingredientCostPerCup;
+            let laborCost = staffNeeded * totalHours * laborRate;
+            let totalCost = baseFee + ingredientCost + laborCost;
+            let finalPrice = totalCost * 1.3;
+            
+            document.getElementById('result').innerHTML = `
+                <p>Staff Needed: ${staffNeeded}</p>
+                <p>Ingredient Cost: $${ingredientCost.toFixed(2)}</p>
+                <p>Labor Cost: $${laborCost.toFixed(2)}</p>
+                <p>Total Cost Before Profit: $${totalCost.toFixed(2)}</p>
+                <p>Final Price (with 30% profit): <strong>$${finalPrice.toFixed(2)}</strong></p>
+            `;
+        }
+    </script>
+</body>
+</html>
